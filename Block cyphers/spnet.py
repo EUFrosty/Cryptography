@@ -13,9 +13,22 @@ def permute(state, pbox):
     return [state[p] for p in pbox]
 
 def sp_encrypt(plaintext, keys, sbox, pbox, rounds):
-
+    state = plaintext[:]
+    for i in range(rounds):
+        state = xor(state, keys[i])
+        state = substitute(state, sbox)
+        state = permute(state, pbox)
+    state = xor(state, keys[-1])
+    return state
 
 def sp_decrypt(ciphertext, keys, sbox, pbox, rounds):
+    state = ciphertext[:]
+    state = xor(state, keys[-1])
+    for i in range(rounds-1, -1, -1):
+        state = permute(state, pbox)
+        state = substitute(state, sbox)
+        state = xor(state, keys[i])
+    return state
 
 if __name__ == "__main__":
     block_size = 16
