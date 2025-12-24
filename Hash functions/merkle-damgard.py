@@ -1,0 +1,44 @@
+from bits import (
+    xor,
+    bits_from_blocks,
+    bits_from_string,
+    bits_to_blocks,
+    bits_to_hex,
+    bits_from_int,
+)
+import spnet
+
+block_size = 32
+f = spnet.new(2 * block_size, block_size)
+
+def pad(b, block_size):
+    pad_len = (block_size - (len(b)+2) % block_size) % block_size
+    return b + [1] + [0] * pad_len + [1]
+
+def md(data):
+    message = pad(data, block_size)
+    state = [0] * block_size
+    for block in bits_to_blocks(message, block_size):
+        state = f(bits_from_blocks([state, block]))
+    return state
+
+def hmac(key, message):
+    repeat = 1 + len(key) // 8
+    ipad_byte = bits_from_int(0x36, 8)
+    opad_byte = bits_from_int(0x5c, 8)
+
+    ipad = (ipad_byte * repeat)[: len(key)]
+    opad = (opad_byte * repeat)[: len(key)]
+    return md(xor(opad, key) + md(xor(ipad, key) + message))
+
+
+def kdf(password, length):
+    blocks = [
+        md(password + bits_from_int(i, 64)) for i in range(1 + length // block_size)
+    ]
+    return bits_from_blocks(blocks)[:length]
+
+
+data = bits_from_string(input())
+hash = md(data)
+print(bits_to_hex(hash))
