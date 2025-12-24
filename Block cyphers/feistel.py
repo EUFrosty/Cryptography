@@ -26,8 +26,8 @@ def feistel_decrypt(ciphertext, keys, F, rounds):
 def example_F(right, key):
     return xor(right, key)
 
-plaintext = [1, 0, 1, 0, 0, 1, 1, 0]  # Example plaintext (left, right)
-keys = [[1, 0, 0, 1], [0, 1, 1, 0], [1, 0, 1, 0]]  # Example round keys
+plaintext = [1, 0, 1, 0, 0, 1, 1, 0]
+keys = [[1, 0, 0, 1], [0, 1, 1, 0], [1, 0, 1, 0]]
 rounds = 3
 
 ciphertext = feistel_encrypt(plaintext, keys, example_F, rounds)

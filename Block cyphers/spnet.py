@@ -17,8 +17,6 @@ def sp_encrypt(plaintext, keys, sbox, pbox, rounds):
 
 def sp_decrypt(ciphertext, keys, sbox, pbox, rounds):
 
-
-# Example usage
 if __name__ == "__main__":
     block_size = 16
     sbox = [
@@ -42,19 +40,15 @@ if __name__ == "__main__":
     pbox = [0, 4, 8, 12, 1, 5, 9, 13, 2, 6, 10, 14, 3, 7, 11, 15]
     rounds = 4
 
-    # Calculate inverse boxes
     inverse_sbox = {v: k for k, v in enumerate(sbox)}
     inverse_pbox = [0] * len(pbox)
     for i, p in enumerate(pbox):
         inverse_pbox[p] = i
 
-    # Generate random keys
     keys = [generate_random_key(block_size) for _ in range(rounds + 1)]
 
-    # Example plaintext (16-bit block)
     plaintext = [0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0]
 
-    # Encrypt and decrypt
     ciphertext = sp_encrypt(plaintext, keys, sbox, pbox, rounds)
     decrypted = sp_decrypt(ciphertext, keys, inverse_sbox, inverse_pbox, rounds)
 

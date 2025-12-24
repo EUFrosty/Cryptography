@@ -1,4 +1,3 @@
-# Implements symmetric cryptography primitives
 from bits import bits_to_int, bits_from_int
 
 
@@ -13,12 +12,10 @@ def sbox(input_bits, substitution_table):
     return bits_from_int(substituted_value, 4)
 
 
-# Example usage
 input_bits = [1, 0, 1, 0, 1, 1, 0, 0]
 permutation = [3, 1, 4, 2, 5, 7, 6, 8]
 print("P-Box Output:", pbox(input_bits, permutation))
 
-# Example usage
 input_bits = [1, 0, 1, 0]
 substitution_table = {
     0: 14,
