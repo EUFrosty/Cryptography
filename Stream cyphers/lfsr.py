@@ -31,8 +31,8 @@ if __name__ == "__main__":
 
     bit_count = int(sys.argv[1])
 
-    seed = [1, 0, 0, 1]  # Initial state
-    taps = [1, 4]  # Tap positions (1-based index to match the C(X) polynomial)
+    seed = [1, 0, 0, 1]
+    taps = [1, 4]
 
     encription = run_lfsr(seed, taps, bit_count)
 
